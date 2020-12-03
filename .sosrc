@@ -1,0 +1,4 @@
+- patterns:
+    - .*\.hs
+  commands:
+    - ormolu -i \0
