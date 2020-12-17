@@ -105,15 +105,11 @@ run2 input =
         & product
 
 solve :: Eq a => [[a]] -> Maybe [a]
-solve = go []
-  where
-    go :: Eq a => [a] -> [[a]] -> Maybe [a]
-    go solved [] = Just $ reverse solved
-    go solved ([] : unsolved) = Nothing
-    go solved ([x] : unsolved) = go (x : solved) (map (filter (/= x)) unsolved)
-    go solved ((x : rest) : unsolved) =
-      go (x : solved) (map (filter (/= x)) unsolved)
-        <|> go solved (rest : unsolved)
+solve [] = Just []
+solve ([] : _) = Nothing
+solve ((x : xs) : unsolved) =
+  ((x :) <$> solve (map (filter (/= x)) unsolved))
+    <|> solve (xs : unsolved)
 
 main :: IO ()
 main = do
